@@ -33,6 +33,8 @@ public class Calculator extends JPanel
     JPanel jp2 = new JPanel();
     JPanel jp3 = new JPanel();
 
+    ButtonListener listener = new ButtonListener();
+
     public Calculator()
     {
         jp1.setLayout(new BorderLayout());
@@ -40,21 +42,22 @@ public class Calculator extends JPanel
 
         JTFdisplay.setHorizontalAlignment(SwingConstants.RIGHT);
 
-        JB0.addActionListener(new Listener());
-        JB1.addActionListener(new Listener());
-        JB2.addActionListener(new Listener());
-        JB3.addActionListener(new Listener());
-        JB4.addActionListener(new Listener());
-        JB5.addActionListener(new Listener());
-        JB6.addActionListener(new Listener());
-        JB7.addActionListener(new Listener());
-        JB8.addActionListener(new Listener());
-        JB9.addActionListener(new Listener());
-        JBplus.addActionListener(new Listener());
-        JBminus.addActionListener(new Listener());
-        JBtimes.addActionListener(new Listener());
-        JBdivide.addActionListener(new Listener());
-        JBequals.addActionListener(new Listener());
+        JB0.addActionListener(listener);
+        JB1.addActionListener(listener);
+        JB2.addActionListener(listener);
+        JB3.addActionListener(listener);
+        JB4.addActionListener(listener);
+        JB5.addActionListener(listener);
+        JB6.addActionListener(listener);
+        JB7.addActionListener(listener);
+        JB8.addActionListener(listener);
+        JB9.addActionListener(listener);
+        JBplus.addActionListener(listener);
+        JBminus.addActionListener(listener);
+        JBtimes.addActionListener(listener);
+        JBdivide.addActionListener(listener);
+        JBequals.addActionListener(listener);
+        JBclear.addActionListener(listener);
 
         jp3.add(JBmc);
         jp3.add(JBroot);
@@ -92,12 +95,10 @@ public class Calculator extends JPanel
         this.add(jp1);
     }
 
-    private class Listener implements ActionListener
+    private class ButtonListener implements ActionListener
     {
-        double[] list = new double[10];
-        double total;
-        int i;
-
+        double total = 0, num1 = 0, num2 = 0;
+        int operation;
         public void actionPerformed(ActionEvent e)
         {
             if(JTFdisplay.getText().equals("0"))
@@ -185,27 +186,80 @@ public class Calculator extends JPanel
 
             if(e.getSource() == JBplus)
             {
-                list[i] = Double.parseDouble(JTFdisplay.getText());
-                i++;
+                num1 = Double.parseDouble(JTFdisplay.getText());
+                operation = 1;
+                JTFdisplay.setText("0");
+                System.out.println(num1 + "\t" + operation);
             }
             if(e.getSource() == JBminus)
             {
-                list[i] = Double.parseDouble(JTFdisplay.getText());
-                i++;
+                num1 = Double.parseDouble(JTFdisplay.getText());
+                operation = 2;
+                JTFdisplay.setText("0");
+                System.out.println(num1 + "\t" + operation);
             }
             if(e.getSource() == JBtimes)
             {
-                list[i] = Double.parseDouble(JTFdisplay.getText());
-                i++;
+                num1 = Double.parseDouble(JTFdisplay.getText());
+                operation = 3;
+                JTFdisplay.setText("0");
+                System.out.println(num1 + "\t" + operation);
             }
             if(e.getSource() == JBdivide)
             {
-                list[i] = Double.parseDouble(JTFdisplay.getText());
-                i++;
+                num1 = Double.parseDouble(JTFdisplay.getText());
+                operation = 4;
+                JTFdisplay.setText("0");
+                System.out.println(num1 + "\t" + operation);
             }
+
             if(e.getSource() == JBequals)
             {
-                JTFdisplay.setText("" + total);
+                System.out.println(operation);
+                num2 = Double.parseDouble(JTFdisplay.getText());
+                if(operation == 1)
+                {
+                    total = num1 + num2;
+                    JTFdisplay.setText("" + total);
+                    System.out.println(num1 + "\t" + num2 + "\t" +operation + "\t" + total);
+                }
+                else if(operation == 2)
+                {
+                    total = num1 - num2;
+                    JTFdisplay.setText("" + total);
+                    System.out.println(num1 + "\t" + num2 + "\t" +operation + "\t" + total);
+                }
+                else if(operation == 3)
+                {
+                    total = num1 * num2;
+                    JTFdisplay.setText("" + total);
+                    System.out.println(num1 + "\t" + num2 + "\t" +operation + "\t" + total);
+                }
+                else if(operation == 4)
+                {
+                    if (num2 != 0)
+                    {
+                        total = num1/num2;
+                        JTFdisplay.setText("" + total);
+                    }
+                    else
+                    {
+                        JTFdisplay.setText("ERROR: Div by 0");
+                    }
+                    System.out.println(num1 + "\t" + num2 + "\t" +operation + "\t" + total);
+                }
+
+            }
+
+            if(e.getSource() == JBclear)
+            {
+                if(JTFdisplay.getText().equals("0"))
+                {
+                    num2 = 0;
+                }
+                total = 0;
+                num1 = 0;
+                JTFdisplay.setText("0");
             }
 
         }
